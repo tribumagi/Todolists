@@ -5,12 +5,14 @@ import {useSelector} from "react-redux";
 import {TaskStatuses, TaskTypeResponse} from "../../api/todolistApi";
 import {TodoListStateType} from "../../bll/todolists-reducer";
 
+export type FilterType = 'all' | 'completed' | 'active'
+export type StatusType ='idle' | 'loading' | 'succeeded' | 'failed'
 
 export type TodoListPropsType = {
     todoList: TodoListStateType
 }
 
-const Todolist:FC<TodoListPropsType> = ({id, title, filter, entityStatus}) => {
+const Todolist:FC<TodoListStateType> = ({id, title, filter, entityStatus}) => {
     const dispatch = AppDispatch();
     const selectTasks = (todoListID: string) => (state: AppRootState) => state.tasks[todoListID]
 const tasks = useSelector<AppRootState, TaskTypeResponse[]>(selectTasks(id))

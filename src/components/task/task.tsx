@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {ChangeEventHandler, FC} from 'react';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../bll/store";
 
@@ -17,7 +17,7 @@ const Task :FC<TaskPropsType> = ({todoListId,taskId,completed, title}) => {
 
    }
 
-    const changeStatusTask = (id) => {
+    const changeStatusTask = () => {
 
     }
 
