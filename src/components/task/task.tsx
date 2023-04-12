@@ -1,6 +1,7 @@
 import React, {ChangeEventHandler, FC} from 'react';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../bll/store";
+import {updateTaskTC} from "../../bll/allThunks";
 
 type TaskPropsType= {
     todoListId: string
@@ -17,8 +18,8 @@ const Task :FC<TaskPropsType> = ({todoListId,taskId,completed, title}) => {
 
    }
 
-    const changeStatusTask = () => {
-
+    const changeStatusTask = (status: number) => {
+        dispatch(updateTaskTC(todoListID, taskID, {status}))
     }
 
     const isChecked = completed === 2;
