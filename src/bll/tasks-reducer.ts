@@ -40,7 +40,7 @@ export const tasksReducer = (state:TasksStateType=initialState, action:TasksActi
 
         case "UPDATE-TASK": return {...state, [action.todoListId]: state[action.todoListId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)}
 
-        case "SET-TASKS" : return {...state, [action.todoListId]:[action.tasks]}
+        case "SET-TASKS" : return {...state, [action.todoListId]:action.tasks}
 
         case "SET-TODOLIST" : const copyState = {...state}
             action.todoList.forEach(tl => copyState[tl.id] = [] )

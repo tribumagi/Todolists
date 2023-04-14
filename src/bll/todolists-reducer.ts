@@ -3,7 +3,7 @@ import {
     changeEntityStatusAC,
     changeFilterAC,
     changeTitleAC,
-    RemovetodolistAC,
+    removetodolistAC,
     setTodolistAC
 } from "./allActions";
 import {TodoListResponseType} from "../api/todolistApi";
@@ -41,4 +41,4 @@ export type TodolistsActionType =
     ReturnType<typeof changeEntityStatusAC> |
     ReturnType<typeof changeFilterAC> |
     ReturnType<typeof setTodolistAC> |
-    ReturnType<typeof RemovetodolistAC>
+    ReturnType<typeof removetodolistAC>

@@ -13,5 +13,5 @@ export const changeFilterAC = (todoListId:string, filter:FilterType) => ({type:"
 
 
 export const setTodolistAC =  (todoList: TodoListResponseType[]) => ({type:"SET-TODOLIST",todoList}as const)
-export const RemovetodolistAC = (todolistId:string) => ({type:"REMOVE-TODOLIST",todolistId}as const)
+export const removetodolistAC = (todolistId:string) => ({type:"REMOVE-TODOLIST",todolistId}as const)
 export const addTodolistAC= (todoList:TodoListResponseType) =>  ({type:"ADD-TODOLIST", todoList} as const)

@@ -19,7 +19,7 @@ const Task :FC<TaskPropsType> = ({todoListId,taskId,completed, title}) => {
    }
 
     const changeStatusTask = (status: number) => {
-        dispatch(updateTaskTC(todoListID, taskID, {status}))
+        dispatch(updateTaskTC(todoListId, taskId, {status}))
     }
 
     const isChecked = completed === 2;
