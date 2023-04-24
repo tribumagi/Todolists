@@ -2,10 +2,10 @@ import axios from "axios";
 import todolist from "../components/todolist/todolist";
 
 const instance = axios.create({
-    baseURL: "",
+    baseURL: "https://social-network.samuraijs.com/api/1.1/",
     withCredentials: true,
     headers: {
-        'API-KEY': '4d6d9926-0e7a-48ea-8269-ba2c86428db6',
+        'API-KEY': 'ce3c070f-a909-423d-8134-d1162e5ce541',
     },
 })
 

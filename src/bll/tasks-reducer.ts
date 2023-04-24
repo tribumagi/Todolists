@@ -3,7 +3,7 @@ import {
     addTaskAC,
     addTodolistAC,
     deleteTaskAC,
-    RemovetodolistAC,
+    removetodolistAC,
     setTasksAC,
     setTodolistAC,
     updateTaskAC
@@ -43,7 +43,7 @@ export const tasksReducer = (state:TasksStateType=initialState, action:TasksActi
         case "SET-TASKS" : return {...state, [action.todoListId]:action.tasks}
 
         case "SET-TODOLIST" : const copyState = {...state}
-            action.todoList.forEach(tl => copyState[tl.id] = [] )
+            action.todoList.forEach((tl: { id: string | number; }) => copyState[tl.id] = [] )
             return copyState
 
         case "ADD-TODOLIST" : return {...state, [action.todoList.id]:[]}
@@ -61,7 +61,7 @@ export type TasksActionType =
     ReturnType<typeof setTasksAC>|
     ReturnType<typeof setTodolistAC>|
     ReturnType<typeof updateTaskAC>|
-    ReturnType<typeof RemovetodolistAC>|
+    ReturnType<typeof removetodolistAC>|
     ReturnType<typeof addTodolistAC>
 
 

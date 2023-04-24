@@ -5,7 +5,7 @@ import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
 
 
-const rootState = combineReducers({todoLists: todolistsReducer, tasks: tasksReducer})
+const rootState = combineReducers({todolists: todolistsReducer, tasks: tasksReducer})
 
 export type AppRootState = ReturnType<typeof rootState>
 

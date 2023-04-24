@@ -1,4 +1,4 @@
-import React, {ChangeEventHandler, FC} from 'react';
+import React, {ChangeEvent, ChangeEventHandler, FC} from 'react';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../bll/store";
 import {updateTaskTC} from "../../bll/allThunks";
@@ -18,8 +18,13 @@ const Task :FC<TaskPropsType> = ({todoListId,taskId,completed, title}) => {
 
    }
 
-    const changeStatusTask = (status: number) => {
+    const changeStatus = (status: number) => {
         dispatch(updateTaskTC(todoListId, taskId, {status}))
+    }
+
+    const changeStatusTask = (e: ChangeEvent<HTMLInputElement>) => {
+        const status = e.currentTarget.checked ? 2 : 0
+        changeStatus(status)
     }
 
     const isChecked = completed === 2;
@@ -27,7 +32,7 @@ const Task :FC<TaskPropsType> = ({todoListId,taskId,completed, title}) => {
     const changeStatusHandler = (e: any) => {
         if (e.target.id === 'task') {
 
-            changeStatusTask(isChecked ? 0 : 2)
+            changeStatus(isChecked ? 0 : 2)
         }
     }
 
