@@ -4,7 +4,11 @@ import {AppDispatch, AppRootState} from "../../bll/store";
 import {useSelector} from "react-redux";
 import {TaskStatuses, TaskTypeResponse} from "../../api/todolistApi";
 import {TodoListStateType} from "../../bll/todolists-reducer";
-import {fetchTasksTC} from "../../bll/allThunks";
+import {fetchTasksTC, removeTodolistTC, updateTodolistTitleTC} from "../../bll/allThunks";
+import {EditableSpan} from "../editableSpan/EditableSpan";
+import {Button, Typography} from "@mui/material";
+import styled from "styled-components";
+import {changeFilterAC} from "../../bll/allActions";
 
 export type FilterType = 'all' | 'completed' | 'active'
 export type StatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -29,11 +33,24 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
     if (filter === 'completed') filteredTasks = tasks.filter(t => t.status === TaskStatuses.Completed)
     if (filter === 'active') filteredTasks = tasks.filter(t => t.status === TaskStatuses.New)
 
+    const changeFilter = (filter: FilterType) => dispatch(changeFilterAC(id, filter))
+
+    const removetodolist = () => {
+        // eslint-disable-next-line no-restricted-globals
+        var result = confirm('Удалить элемент?')
+        if (result) {
+            dispatch(removeTodolistTC(id))
+        }}
+
+     const changeTodoListTitle = (title:string) => {
+        dispatch(updateTodolistTitleTC(id,title))
+    }
+
     const tasksMap = tasks.length ? filteredTasks.map(t => {
         return (
             <Task
                 key={t.id}
-                todoListId={t.id}
+                todolistId={id}
                 taskId={t.id}
                 title={t.title}
                 completed={t.status}
@@ -42,9 +59,29 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
 
     return (
         <div>
+            <button onClick={removetodolist}>x</button>
+            <Typography component={'h2'} sx={{
+                fontSize: 20,
+                fontWeight: 600,
+                padding: '0.5rem'
+            }}>
+                <EditableSpan title={title} changeTitle={changeTodoListTitle}/>
+            </Typography>
             {tasksMap}
+            <ButtonsWrapper>
+                <Button variant={filter === 'all' ? "contained" : 'outlined'} onClick={() => changeFilter('all')} disabled={!tasks.length}>All</Button>
+                <Button variant={filter === 'active' ? "contained" : 'outlined'} onClick={() => changeFilter('active')} disabled={!tasks.length}>Active</Button>
+                <Button variant={filter === 'completed' ? "contained" : 'outlined'} onClick={() => changeFilter('completed')} disabled={!tasks.length}>Completed</Button>
+            </ButtonsWrapper>
         </div>
     );
 };
 
-export default Todolist;
+const ButtonsWrapper = styled.div`
+  display: flex;
+  column-gap: 1rem;
+  justify-content: center;
+  padding: 10px 0;
+`
+
+export default Todolist

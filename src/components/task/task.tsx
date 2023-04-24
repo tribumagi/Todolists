@@ -1,25 +1,25 @@
 import React, {ChangeEvent, ChangeEventHandler, FC} from 'react';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../bll/store";
-import {updateTaskTC} from "../../bll/allThunks";
+import {deleteTaskTC, updateTaskTC} from "../../bll/allThunks";
 
 type TaskPropsType= {
-    todoListId: string
+    todolistId: string
     taskId: string
     title: string,
     completed: number
 }
 
-const Task :FC<TaskPropsType> = ({todoListId,taskId,completed, title}) => {
+const Task :FC<TaskPropsType> = ({todolistId,taskId,completed, title}) => {
     const dispatch = AppDispatch();
 
 
    const deleteTask = () => {
-
+dispatch(deleteTaskTC(todolistId,taskId))
    }
 
     const changeStatus = (status: number) => {
-        dispatch(updateTaskTC(todoListId, taskId, {status}))
+        dispatch(updateTaskTC(todolistId, taskId, {status}))
     }
 
     const changeStatusTask = (e: ChangeEvent<HTMLInputElement>) => {

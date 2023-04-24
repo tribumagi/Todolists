@@ -45,7 +45,7 @@ return instance.put<TaskTypeResponse>(`/todo-lists/${todolistId}/tasks/${taskId}
     },
 
     deleteTask(todolistId:string, taskId:string) {
-        return instance.put<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
+        return instance.delete<ResponseType>(`/todo-lists/${todolistId}/tasks/${taskId}`)
             .then((res) => res.data)
     }
 
@@ -57,6 +57,8 @@ export type AuthType = {
     password: string
     rememberMe?: boolean
 }
+
+
 export const AuthAPI = {
     auth(Auth: AuthType) {
         return instance.post<ResponseType<{ userId: number }>>('auth/login', Auth)
