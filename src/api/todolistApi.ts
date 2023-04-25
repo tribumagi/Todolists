@@ -35,7 +35,7 @@ return instance.get<getTasksTypeResponse>(`todo-lists/${todolistId}/tasks`)
     },
 
     addTask(todolistId:string, title:string) {
-return instance.put<ResponseType<{ item: TaskTypeResponse }>>(`todo-lists/${todolistId}/tasks`, {title})
+return instance.post<ResponseType<{ item: TaskTypeResponse }>>(`todo-lists/${todolistId}/tasks`, {title})
     .then((res)=> res.data)
     },
 

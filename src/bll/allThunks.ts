@@ -18,9 +18,9 @@ export const fetchTasksTC = (id: string):AppThunk =>
         dispatch(setTasksAC(id, res.data.items))
 }
 
-export const addTaskTC = (todoListId: string, title: string):AppThunk =>
+export const addTaskTC = (todolistId: string, title: string):AppThunk =>
     async dispatch => {
-    const res = await todolistApi.addTask(todoListId, title)
+    const res = await todolistApi.addTask(todolistId, title)
     dispatch(addTaskAC(res.data.item.todoListId, res.data.item.title))
 }
 

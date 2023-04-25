@@ -34,7 +34,7 @@ export const tasksReducer = (state:TasksStateType=initialState, action:TasksActi
                 todoListId: action.todoListId,
                 completed: false
             }
-            return {...state, [action.todoListId]:[...state[action.todoListId], newTask]}
+            return {...state, [action.todoListId]:[newTask, ...state[action.todoListId]]}
 
         case "DELETE-TASK":  return {...state, [action.todoListId]: state[action.todoListId].filter(t => t.id !== action.taskId)}
 

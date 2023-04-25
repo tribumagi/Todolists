@@ -2,21 +2,24 @@ import React, {ChangeEvent, ChangeEventHandler, FC} from 'react';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../bll/store";
 import {deleteTaskTC, updateTaskTC} from "../../bll/allThunks";
+import {Checkbox, IconButton} from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-type TaskPropsType= {
+
+type TaskPropsType = {
     todolistId: string
     taskId: string
     title: string,
     completed: number
 }
 
-const Task :FC<TaskPropsType> = ({todolistId,taskId,completed, title}) => {
+const Task: FC<TaskPropsType> = ({todolistId, taskId, completed, title}) => {
     const dispatch = AppDispatch();
 
 
-   const deleteTask = () => {
-dispatch(deleteTaskTC(todolistId,taskId))
-   }
+    const deleteTask = () => {
+        dispatch(deleteTaskTC(todolistId, taskId))
+    }
 
     const changeStatus = (status: number) => {
         dispatch(updateTaskTC(todolistId, taskId, {status}))
@@ -37,11 +40,14 @@ dispatch(deleteTaskTC(todolistId,taskId))
     }
 
     return (
-        <li onClick={changeStatusHandler}>
-<button onClick={deleteTask}>x</button>
-<input type={"checkbox"} checked={isChecked} onChange={changeStatusTask} />
-<span>{title}</span>
-        </li>
+        <div onClick={changeStatusHandler}>
+            <IconButton onClick={deleteTask}>
+                <DeleteIcon/>
+            </IconButton>
+
+            <Checkbox size='medium' checked={isChecked} onChange={changeStatusTask}/>
+            <span>{title}</span>
+        </div>
     );
 };
 

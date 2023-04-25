@@ -1,14 +1,16 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import Task from "../task/task";
 import {AppDispatch, AppRootState} from "../../bll/store";
 import {useSelector} from "react-redux";
 import {TaskStatuses, TaskTypeResponse} from "../../api/todolistApi";
 import {TodoListStateType} from "../../bll/todolists-reducer";
-import {fetchTasksTC, removeTodolistTC, updateTodolistTitleTC} from "../../bll/allThunks";
+import {addTaskTC, fetchTasksTC, removeTodolistTC, updateTodolistTitleTC} from "../../bll/allThunks";
 import {EditableSpan} from "../editableSpan/EditableSpan";
-import {Button, Typography} from "@mui/material";
+import {Button, IconButton, Typography} from "@mui/material";
 import styled from "styled-components";
 import {changeFilterAC} from "../../bll/allActions";
+import {AddItemForm} from "../addItemForm/addItemForm";
+import CloseIcon from '@mui/icons-material/Close';
 
 export type FilterType = 'all' | 'completed' | 'active'
 export type StatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -35,7 +37,7 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
 
     const changeFilter = (filter: FilterType) => dispatch(changeFilterAC(id, filter))
 
-    const removetodolist = () => {
+    const removeTodolist = () => {
         // eslint-disable-next-line no-restricted-globals
         var result = confirm('Удалить элемент?')
         if (result) {
@@ -45,6 +47,10 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
      const changeTodoListTitle = (title:string) => {
         dispatch(updateTodolistTitleTC(id,title))
     }
+
+    const addTask = useCallback((title: string) => {
+        dispatch(addTaskTC(id, title))
+    },[dispatch])
 
     const tasksMap = tasks.length ? filteredTasks.map(t => {
         return (
@@ -58,22 +64,34 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
     }) : "vvodi"
 
     return (
-        <div>
-            <button onClick={removetodolist}>x</button>
+        <TodoListContainer>
+
             <Typography component={'h2'} sx={{
                 fontSize: 20,
                 fontWeight: 600,
                 padding: '0.5rem'
             }}>
                 <EditableSpan title={title} changeTitle={changeTodoListTitle}/>
+
+                <AddItemForm addItem={addTask} label={'Enter your task'} />
             </Typography>
+            <IconButton
+                aria-label="Delete"
+                onClick={removeTodolist}
+                sx={{
+                    position: 'absolute',
+                    right: 0,
+                    top: 0
+                }}>
+                <CloseIcon/>
+            </IconButton>
             {tasksMap}
             <ButtonsWrapper>
                 <Button variant={filter === 'all' ? "contained" : 'outlined'} onClick={() => changeFilter('all')} disabled={!tasks.length}>All</Button>
                 <Button variant={filter === 'active' ? "contained" : 'outlined'} onClick={() => changeFilter('active')} disabled={!tasks.length}>Active</Button>
                 <Button variant={filter === 'completed' ? "contained" : 'outlined'} onClick={() => changeFilter('completed')} disabled={!tasks.length}>Completed</Button>
             </ButtonsWrapper>
-        </div>
+        </TodoListContainer>
     );
 };
 
@@ -82,6 +100,10 @@ const ButtonsWrapper = styled.div`
   column-gap: 1rem;
   justify-content: center;
   padding: 10px 0;
+`
+const TodoListContainer = styled.div`
+  position: relative;
+  padding: 1rem;
 `
 
 export default Todolist

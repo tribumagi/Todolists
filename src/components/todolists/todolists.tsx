@@ -5,16 +5,15 @@ import {TodoListResponseType} from "../../api/todolistApi";
 import Todolist from "../todolist/todolist";
 import {Grid, Paper} from "@mui/material";
 import {TodoListsType} from "../../bll/todolists-reducer";
-import {fetchTodolistsTC} from "../../bll/allThunks";
+import {addTodolistTC, fetchTodolistsTC} from "../../bll/allThunks";
+import {AddItemForm} from "../addItemForm/addItemForm";
 
-export type todolistStateType = TodoListResponseType & {filter:any, status:any}
-
+export type todolistStateType = TodoListResponseType & { filter: any, status: any }
 
 
 export const Todolists = () => {
     const selectTodoLists = (state: AppRootState) => state.todolists
-const todolists =useSelector<AppRootState, TodoListsType>(selectTodoLists)
-
+    const todolists = useSelector<AppRootState, TodoListsType>(selectTodoLists)
 
 
     const dispatch = AppDispatch();
@@ -22,6 +21,10 @@ const todolists =useSelector<AppRootState, TodoListsType>(selectTodoLists)
     useEffect(() => {
         dispatch(fetchTodolistsTC())
     }, [])
+
+    const addTodolist = (title: string) => {
+        dispatch(addTodolistTC(title))
+    }
 
     const todolistMap = todolists.length ? todolists.map(t => {
         return (
@@ -36,9 +39,9 @@ const todolists =useSelector<AppRootState, TodoListsType>(selectTodoLists)
     }) : <div>Add your first Todolist!</div>
 
 
-
     return (
         <div>
+            <AddItemForm addItem={addTodolist} label={"Enter new todolist!"}/>
             {todolistMap}
         </div>
     );

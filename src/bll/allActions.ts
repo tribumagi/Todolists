@@ -2,7 +2,7 @@ import {TaskTypeResponse, TodoListResponseType, UpdateTaskDomainModelType} from 
 import {FilterType, StatusType} from "../components/todolist/todolist";
 
 
-export const addTaskAC= (title:string, todoListId:string) =>  ({type:"ADD-TASK", title, todoListId} as const)
+export const addTaskAC= (todoListId:string, title:string) =>  ({type:"ADD-TASK", title, todoListId} as const)
 export const deleteTaskAC = (todoListId:string, taskId:string) =>({type:"DELETE-TASK", todoListId, taskId}as const)
 export const updateTaskAC=(todoListId:string, taskId:string, model:UpdateTaskDomainModelType) => ({type:"UPDATE-TASK", todoListId, taskId, model}as const)
 export const setTasksAC = (todoListId:string, tasks:TaskTypeResponse[]) => ({type:"SET-TASKS",todoListId,tasks}as const)
