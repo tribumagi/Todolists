@@ -3,7 +3,7 @@ import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../bll/store";
 import {TodoListResponseType} from "../../api/todolistApi";
 import Todolist from "../todolist/todolist";
-import {Grid, Paper} from "@mui/material";
+import {Container, Grid, Paper} from "@mui/material";
 import {TodoListsType} from "../../bll/todolists-reducer";
 import {addTodolistTC, fetchTodolistsTC} from "../../bll/allThunks";
 import {AddItemForm} from "../addItemForm/addItemForm";
@@ -40,10 +40,12 @@ export const Todolists = () => {
 
 
     return (
-        <div>
-            <AddItemForm addItem={addTodolist} label={"Enter new todolist!"}/>
-            {todolistMap}
-        </div>
+        <Container sx={{padding: '1.5rem 0'}}>
+            <AddItemForm addItem={addTodolist} label={'Enter todo list title'}/>
+            <Grid container spacing={2}>
+                {todolistMap}
+            </Grid>
+        </Container>
     );
 };
 

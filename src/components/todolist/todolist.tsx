@@ -6,7 +6,7 @@ import {TaskStatuses, TaskTypeResponse} from "../../api/todolistApi";
 import {TodoListStateType} from "../../bll/todolists-reducer";
 import {addTaskTC, fetchTasksTC, removeTodolistTC, updateTodolistTitleTC} from "../../bll/allThunks";
 import {EditableSpan} from "../editableSpan/EditableSpan";
-import {Button, IconButton, Typography} from "@mui/material";
+import {Box, Button, IconButton, Typography} from "@mui/material";
 import styled from "styled-components";
 import {changeFilterAC} from "../../bll/allActions";
 import {AddItemForm} from "../addItemForm/addItemForm";
@@ -69,11 +69,13 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
             <Typography component={'h2'} sx={{
                 fontSize: 20,
                 fontWeight: 600,
-                padding: '0.5rem'
+                padding: '0.5rem',
+
+                width:323
             }}>
                 <EditableSpan title={title} changeTitle={changeTodoListTitle}/>
 
-                <AddItemForm addItem={addTask} label={'Enter your task'} />
+                <AddItemForm addItem={addTask} label={'Enter your task'}  />
             </Typography>
             <IconButton
                 aria-label="Delete"
@@ -85,7 +87,17 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
                 }}>
                 <CloseIcon/>
             </IconButton>
-            {tasksMap}
+            <Box component={'ul'} sx={{
+                position: 'relative',
+                height:300,
+                overflowY: "scroll",
+
+                paddingLeft:0
+
+            }}>
+                {tasksMap}
+
+            </Box>
             <ButtonsWrapper>
                 <Button variant={filter === 'all' ? "contained" : 'outlined'} onClick={() => changeFilter('all')} disabled={!tasks.length}>All</Button>
                 <Button variant={filter === 'active' ? "contained" : 'outlined'} onClick={() => changeFilter('active')} disabled={!tasks.length}>Active</Button>

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, FC, memo, useState} from 'react';
+import React, {ChangeEvent, FC, KeyboardEvent, memo, useState} from 'react';
 import {IconButton, TextField} from "@mui/material";
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import styled from "styled-components";
@@ -13,9 +13,11 @@ export const AddItemForm:FC<AddItemFormPropsType> = memo(({addItem, label}) => {
     const [error, serError] = useState<boolean>(false)
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+
         const value = e.currentTarget.value
         if (value.trim()) serError(false)
         setValue(value)
+
     }
 
     const onClick = () => {
@@ -25,6 +27,10 @@ export const AddItemForm:FC<AddItemFormPropsType> = memo(({addItem, label}) => {
             return
         }
         serError(true)
+    }
+
+    const onKeyDown = (e:KeyboardEvent<HTMLInputElement>) => {
+       if (e.key==="Enter") onClick()
     }
 
     return (
@@ -40,6 +46,7 @@ export const AddItemForm:FC<AddItemFormPropsType> = memo(({addItem, label}) => {
                 sx={{
                     flexGrow:1
                 }}
+                onKeyDown={onKeyDown}
             />
             <IconButton aria-label="Add"  onClick={onClick} sx={{width:55, height:55}} >
                 <AddBoxIcon fontSize="large" color="primary" />

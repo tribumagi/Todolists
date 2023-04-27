@@ -22,9 +22,7 @@ export const EditableSpan:FC<EditableSpanPropsType> = ({title, changeTitle}) => 
 
     return ( !isEdit
             ? <>
-                <IconButton onClick={setEdit}>
-                    <EditIcon/>
-                </IconButton>
+
                 <span onDoubleClick={setEdit} >{title}</span>
             </>
             : <input value={value} type="text" onChange={onChange} onBlur={changeEditMode} autoFocus={true}/>
