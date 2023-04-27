@@ -6,11 +6,14 @@ import Todolists from "./components/todolists/todolists";
 import {Header} from "./components/header/Header";
 import {Progress} from "./components/progress/Progress";
 
+import {LinearProgress} from "@mui/material";
+
 function App() {
   return (
     <div className="App">
 
         <Header />
+        <LinearProgress />
      <Todolists />
     </div>
   );

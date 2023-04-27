@@ -1,4 +1,4 @@
-import {TaskStatuses, TaskTypeResponse, TodoTaskPriority} from "../api/todolistApi";
+import {TaskStatuses, TaskTypeResponse, TodoTaskPriority} from "../../api/todolistApi";
 import {
     addTaskAC,
     addTodolistAC,
@@ -7,7 +7,7 @@ import {
     setTasksAC,
     setTodolistAC,
     updateTaskAC
-} from "./allActions";
+} from "../allActions";
 import {v1} from "uuid";
 
 

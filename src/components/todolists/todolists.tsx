@@ -4,7 +4,7 @@ import {AppDispatch, AppRootState} from "../../bll/store";
 import {TodoListResponseType} from "../../api/todolistApi";
 import Todolist from "../todolist/todolist";
 import {Container, Grid, Paper} from "@mui/material";
-import {TodoListsType} from "../../bll/todolists-reducer";
+import {TodoListsType} from "../../bll/reducers/todolists-reducer";
 import {addTodolistTC, fetchTodolistsTC} from "../../bll/allThunks";
 import {AddItemForm} from "../addItemForm/addItemForm";
 

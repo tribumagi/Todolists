@@ -3,7 +3,7 @@ import Task from "../task/task";
 import {AppDispatch, AppRootState} from "../../bll/store";
 import {useSelector} from "react-redux";
 import {TaskStatuses, TaskTypeResponse} from "../../api/todolistApi";
-import {TodoListStateType} from "../../bll/todolists-reducer";
+import {TodoListStateType} from "../../bll/reducers/todolists-reducer";
 import {addTaskTC, fetchTasksTC, removeTodolistTC, updateTodolistTitleTC} from "../../bll/allThunks";
 import {EditableSpan} from "../editableSpan/EditableSpan";
 import {Box, Button, IconButton, Typography} from "@mui/material";

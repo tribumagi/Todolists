@@ -5,8 +5,8 @@ import {
     changeTitleAC,
     removetodolistAC,
     setTodolistAC
-} from "./allActions";
-import {TodoListResponseType} from "../api/todolistApi";
+} from "../allActions";
+import {TodoListResponseType} from "../../api/todolistApi";
 
 export type TodoListsType = TodoListStateType[];
 
