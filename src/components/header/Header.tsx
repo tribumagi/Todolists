@@ -1,17 +1,17 @@
 import React from 'react';
 import {AppBar, Button, IconButton, Toolbar, Typography} from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
 import {useSelector} from "react-redux";
 import {AppDispatch, AppRootState} from "../../bll/store";
+import {logOutTC} from "../../bll/allThunks";
 
 
 export const Header = () => {
 
     const dispatch = AppDispatch();
-   // const isLogged = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
+    const isLogged = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
 
     const logOutHandler = () => {
-
+        dispatch(logOutTC());
     }
 
     return (
@@ -29,7 +29,7 @@ export const Header = () => {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     Todolists
                 </Typography>
-                {/*{isLogged ? <Button color="inherit" onClick={logOutHandler}>Log out</Button> : <Button color="inherit">Login</Button>}*/}
+                {isLogged ? <Button color="inherit" onClick={logOutHandler}>Log out</Button> : <Button color="inherit">Login</Button>}
 
             </Toolbar>
         </AppBar>

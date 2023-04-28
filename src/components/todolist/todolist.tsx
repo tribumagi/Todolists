@@ -62,7 +62,7 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
                 title={t.title}
                 completed={t.status}
             />)
-    }) : "vvodi"
+    }) : "Add new task!"
 
     return (
         <TodoListContainer>

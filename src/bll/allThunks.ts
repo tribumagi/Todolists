@@ -3,12 +3,12 @@ import {
     addTaskAC,
     addTodolistAC, appSetErrorAC, appSetStatusAC, changeEntityStatusAC, changeTitleAC,
     deleteTaskAC,
-    removetodolistAC,
+    removetodolistAC, setInitializedAC, setLoggedInAC,
     setTasksAC,
     setTodolistAC,
     updateTaskAC
 } from "./allActions";
-import {todolistApi, TodoListResponseType, UpdateTaskDomainModelType} from "../api/todolistApi";
+import {AuthAPI, AuthType, todolistApi, TodoListResponseType, UpdateTaskDomainModelType} from "../api/todolistApi";
 
 
 export const fetchTasksTC = (id: string): AppThunk =>
@@ -112,8 +112,55 @@ export const removeTodolistTC = (todolistId: string): AppThunk => async dispatch
 export const updateTodolistTitleTC = (todolistId: string, title: string): AppThunk => async dispatch => {
     dispatch(appSetStatusAC('loading'))
     dispatch(changeEntityStatusAC(todolistId, 'loading'))
-    const res = await todolistApi.updateTodolist(todolistId, title)
+    await todolistApi.updateTodolist(todolistId, title)
     dispatch(changeTitleAC(todolistId, title))
     dispatch(appSetStatusAC('succeeded'))
     dispatch(changeEntityStatusAC(todolistId, 'idle'))
+}
+
+
+export const authTC = (AuthObj: AuthType):AppThunk => async dispatch => {
+    try {
+        dispatch(appSetStatusAC('loading'));
+        const res = await AuthAPI.auth(AuthObj)
+
+        if (res.data.resultCode === 0) {
+            dispatch(setLoggedInAC(true))
+            return
+        }
+        dispatch(appSetErrorAC(res.data.messages[0]))
+    } catch (error: any) {
+        dispatch(appSetErrorAC(error.message))
+    } finally {
+        dispatch(appSetStatusAC('idle'));
+    }
+}
+
+
+export const initializedAppTC = ():AppThunk => async dispatch => {
+    try {
+        const res = await AuthAPI.me();
+        dispatch(setInitializedAC(true))
+        if (res.data.resultCode === 0) {
+            dispatch(setLoggedInAC(true))
+            return
+        }
+        dispatch(appSetErrorAC(res.data.messages[0]))
+    } catch (error: any) {
+        dispatch(appSetErrorAC(error.message))
+    }
+}
+
+export const logOutTC = ():AppThunk => async dispatch => {
+    try {
+        const res = await AuthAPI.logOut();
+        dispatch(setInitializedAC(true))
+        if (res.data.resultCode === 0) {
+            dispatch(setLoggedInAC(false))
+            return
+        }
+        dispatch(appSetErrorAC(res.data.messages[0]))
+    } catch (error: any) {
+        dispatch(appSetErrorAC(error.message))
+    }
 }
