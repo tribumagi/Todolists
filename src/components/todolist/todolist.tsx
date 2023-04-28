@@ -11,6 +11,7 @@ import styled from "styled-components";
 import {changeFilterAC} from "../../bll/allActions";
 import {AddItemForm} from "../addItemForm/addItemForm";
 import CloseIcon from '@mui/icons-material/Close';
+import {Progress} from "../progress/Progress";
 
 export type FilterType = 'all' | 'completed' | 'active'
 export type StatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -96,6 +97,7 @@ const Todolist: FC<TodoListPropsType> = ({todolist}) => {
 
             }}>
                 {tasksMap}
+                {entityStatus === 'loading' ? <Progress/> : null}
 
             </Box>
             <ButtonsWrapper>

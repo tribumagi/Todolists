@@ -3,7 +3,8 @@ import {TasksActionType, tasksReducer} from "./reducers/tasks-reducer";
 import {TodolistsActionType, todolistsReducer} from "./reducers/todolists-reducer";
 import thunk, {ThunkAction, ThunkDispatch} from "redux-thunk";
 import {useDispatch} from "react-redux";
-import {appReducer} from "./reducers/app-reducer";
+import {AppActionType, appReducer} from "./reducers/app-reducer";
+import {AuthActionType} from "./reducers/auth-reducer";
 
 
 const rootState = combineReducers({todolists: todolistsReducer, tasks: tasksReducer, app: appReducer})
@@ -20,4 +21,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootState, 
 
 
 
-export type AppRootActionType = TodolistsActionType | TasksActionType
+export type AppRootActionType = TodolistsActionType | TasksActionType | AppActionType | AuthActionType

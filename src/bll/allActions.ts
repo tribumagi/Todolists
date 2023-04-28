@@ -9,7 +9,7 @@ export const setTasksAC = (todoListId:string, tasks:TaskTypeResponse[]) => ({typ
 
 
 export const changeTitleAC = (todoListId:string, title:string) => ({type:"CHANGE-TODOLIST-TITLE",todoListId,title}as const)
-export const changeEntityStatusAC = (todoListId:string, status:StatusType) => ({type:"SET-ENTITY-STATUS", todoListId, status}as const)
+export const changeEntityStatusAC = (todolistId:string, status:StatusType) => ({type:"SET-ENTITY-STATUS", todolistId, status}as const)
 export const changeFilterAC = (todoListId:string, filter:FilterType) => ({type:"CHANGE-FILTER", todoListId, filter}as const)
 
 

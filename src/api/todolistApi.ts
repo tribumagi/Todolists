@@ -40,7 +40,7 @@ return instance.post<ResponseType<{ item: TaskTypeResponse }>>(`todo-lists/${tod
     },
 
     updateTask(todolistId:string, taskId:string, task: UpdateTaskModelType) {
-return instance.put<TaskTypeResponse>(`/todo-lists/${todolistId}/tasks/${taskId}`, task)
+return instance.put<ResponseType<TaskTypeResponse>>(`/todo-lists/${todolistId}/tasks/${taskId}`, task)
     .then((res) => res.data)
     },
 

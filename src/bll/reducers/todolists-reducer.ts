@@ -34,7 +34,7 @@ export const todolistsReducer = (state = initialState, action: TodolistsActionTy
             return state.map(tl => tl.id === action.todoListId ? {...tl, filter: action.filter} : tl)
 
         case "SET-ENTITY-STATUS":
-            return state.map(tl => tl.id === action.todoListId ? {...tl, entityStatus: action.status} : tl)
+            return state.map(tl => tl.id === action.todolistId ? {...tl, entityStatus: action.status} : tl)
 
         default:
             return state

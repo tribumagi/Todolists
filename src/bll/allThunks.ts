@@ -1,7 +1,7 @@
 import {AppRootState, AppThunk} from "./store";
 import {
     addTaskAC,
-    addTodolistAC, changeTitleAC,
+    addTodolistAC, appSetErrorAC, appSetStatusAC, changeEntityStatusAC, changeTitleAC,
     deleteTaskAC,
     removetodolistAC,
     setTasksAC,
@@ -11,29 +11,50 @@ import {
 import {todolistApi, TodoListResponseType, UpdateTaskDomainModelType} from "../api/todolistApi";
 
 
-
-export const fetchTasksTC = (id: string):AppThunk =>
+export const fetchTasksTC = (id: string): AppThunk =>
     async dispatch => {
+        dispatch(changeEntityStatusAC(id, 'idle'))
+        dispatch(appSetStatusAC('loading'))
         const res = await todolistApi.getTasks(id)
         dispatch(setTasksAC(id, res.data.items))
-}
+        dispatch(appSetStatusAC('succeeded'))
+        dispatch(changeEntityStatusAC(id, 'idle'))
+    }
 
-export const addTaskTC = (todolistId: string, title: string):AppThunk =>
+
+export const addTaskTC = (todolistId: string, title: string): AppThunk =>
     async dispatch => {
-    const res = await todolistApi.addTask(todolistId, title)
-    dispatch(addTaskAC(res.data.item.todoListId, res.data.item.title))
-}
+        try {
+            const res = await todolistApi.addTask(todolistId, title)
 
-export const deleteTaskTC = (todoListId: string, taskId:string):AppThunk =>{
-   return async (dispatch) => {
-        const res = await todolistApi.deleteTask(todoListId, taskId)
+            if (res.resultCode === 1) {
+                dispatch(appSetErrorAC(res.messages[0]))
+                dispatch(appSetStatusAC('succeeded'))
+                return
+            }
+            dispatch(addTaskAC(res.data.item.todoListId, res.data.item.title))
+        } catch (error: any) {
+            dispatch(appSetErrorAC(error.message))
+        } finally {
+            dispatch(appSetStatusAC('succeeded'))
+            dispatch(changeEntityStatusAC(todolistId, 'idle'))
+        }
+    }
+
+
+export const deleteTaskTC = (todoListId: string, taskId: string): AppThunk => {
+    return async (dispatch) => {
+         await todolistApi.deleteTask(todoListId, taskId)
         dispatch(deleteTaskAC(todoListId, taskId))
 
-}}
+    }
+}
 
-export const updateTaskTC = (todoListId: string, taskId:string, models: UpdateTaskDomainModelType):AppThunk  =>
-    async (dispatch,getState: () => AppRootState) => {
-        const task = getState().tasks[todoListId].find(t => t.id === taskId)
+export const updateTaskTC = (todolistId: string, taskId: string, models: UpdateTaskDomainModelType): AppThunk =>
+    async (dispatch, getState: () => AppRootState) => {
+        dispatch(appSetStatusAC('loading'))
+        dispatch(changeEntityStatusAC(todolistId, 'loading'))
+        const task = getState().tasks[todolistId].find(t => t.id === taskId)
 
         if (!task) return
         const modelTaskAPI = {
@@ -45,36 +66,54 @@ export const updateTaskTC = (todoListId: string, taskId:string, models: UpdateTa
             deadline: task.deadline,
             ...models
         }
-
-        const res = await todolistApi.updateTask(todoListId, taskId, modelTaskAPI)
-        dispatch(updateTaskAC(todoListId, taskId, modelTaskAPI))
-
+        try {
+            const res = await todolistApi.updateTask(todolistId, taskId, modelTaskAPI)
+            if (res.resultCode === 0) {
+                dispatch(updateTaskAC(todolistId, taskId, modelTaskAPI))
+            }
+            dispatch(appSetErrorAC(res.messages[0]))
+        } catch (error: any) {
+            dispatch(appSetErrorAC(error.message))
+        } finally {
+            dispatch(appSetStatusAC('succeeded'))
+            dispatch(changeEntityStatusAC(todolistId, 'idle'))
+        }
     }
 
 
-export const fetchTodolistsTC = ():AppThunk => {
+export const fetchTodolistsTC = (): AppThunk => {
     return async (dispatch) => {
+        dispatch(appSetStatusAC('loading'))
         const res = await todolistApi.getTodolist()
         dispatch(setTodolistAC(res.data))
+        dispatch(appSetStatusAC('succeeded'))
     }
 
 }
 
-export const addTodolistTC = (title:string):AppThunk => async dispatch => {
-    const res =await todolistApi.createTodolist(title)
+export const addTodolistTC = (title: string): AppThunk => async dispatch => {
+    dispatch(appSetStatusAC('loading'))
+    const res = await todolistApi.createTodolist(title)
     dispatch(addTodolistAC(res.data.item))
+    dispatch(appSetStatusAC('succeeded'))
 }
-    
 
 
-export const removeTodolistTC = (todolistId:string):AppThunk => async dispatch => {
-    const res = await todolistApi.deleteTodolist(todolistId)
+export const removeTodolistTC = (todolistId: string): AppThunk => async dispatch => {
+    dispatch(appSetStatusAC('loading'))
+    dispatch(changeEntityStatusAC(todolistId, 'loading'))
+     await todolistApi.deleteTodolist(todolistId)
     dispatch(removetodolistAC(todolistId))
-    
+    dispatch(appSetStatusAC('succeeded'))
+
+
 }
 
-export const updateTodolistTitleTC = (todoListId:string, title:string):AppThunk => async dispatch =>{
-    const res = await todolistApi.updateTodolist(todoListId,title)
-    dispatch(changeTitleAC(todoListId, title))
-
+export const updateTodolistTitleTC = (todolistId: string, title: string): AppThunk => async dispatch => {
+    dispatch(appSetStatusAC('loading'))
+    dispatch(changeEntityStatusAC(todolistId, 'loading'))
+    const res = await todolistApi.updateTodolist(todolistId, title)
+    dispatch(changeTitleAC(todolistId, title))
+    dispatch(appSetStatusAC('succeeded'))
+    dispatch(changeEntityStatusAC(todolistId, 'idle'))
 }
