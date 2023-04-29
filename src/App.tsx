@@ -1,17 +1,18 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
+
 import './App.css';
-import Todolist, {StatusType} from "./components/todolist/todolist";
+import  {StatusType} from "./components/todolist/todolist";
 import Todolists from "./components/todolists/todolists";
 import {Header} from "./components/header/Header";
 import {Progress} from "./components/progress/Progress";
 
 import {HashRouter, Navigate, Route, Routes} from "react-router-dom";
-import {LinearProgress, Snackbar} from "@mui/material";
+import {LinearProgress} from "@mui/material";
 import {useSelector} from "react-redux";
-import {AppRootState} from "./bll/store";
+import {AppDispatch, AppRootState} from "./bll/store";
 import {Auth} from "./auth/auth";
 import {Snackbars} from "./components/snackBar/Snackbar";
+import {initializedAppTC} from "./bll/allThunks";
 
 
 
@@ -19,6 +20,18 @@ import {Snackbars} from "./components/snackBar/Snackbar";
 function App() {
 
     const status = useSelector<AppRootState, StatusType>(state=>state.app.status)
+    const dispatch = AppDispatch();
+    const isInit = useSelector<AppRootState, boolean>(state => state.app.initialized)
+
+    useEffect(() => {
+        dispatch(initializedAppTC())
+    }, [])
+
+    if (!isInit) {
+        return <div>
+            <Progress/>
+        </div>
+    }
 
   return (
       <>

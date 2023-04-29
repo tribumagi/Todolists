@@ -32,6 +32,7 @@ export const Auth = () => {
     const isLogged = useSelector<AppRootState, boolean>(state => state.auth.isLoggedIn)
     const appStatus = useSelector<AppRootState, StatusType>(state => state.app.status)
 
+
     if (isLogged) {
         return <Navigate to={'/todo'}/>
     }
